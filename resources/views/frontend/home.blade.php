@@ -157,5 +157,35 @@
 
 
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const likeButtons = document.querySelectorAll('.like-button');
+
+            likeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const postId = this.getAttribute('data-post-id');
+                    const likeCountSpan = this.querySelector('.like-count');
+
+                    // Send AJAX request to like/unlike the post
+                    fetch(`/like/${postId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({ post_id: postId })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Update like count and button text
+                            likeCountSpan.textContent = data.likes;
+                            this.textContent = data.message === 'Liked' ? 'Unlike' : 'Like';
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
+            });
+        });
+
+    </script>
 
 @endsection

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +35,9 @@ Route::controller(\App\Http\Controllers\Site\SiteController::class)->group(funct
 Route::controller(\App\Http\Controllers\ConactController::class)->group(function () {
     Route::post('/send_mes','contact');
 });
+// post route
+Route::post('/like/{postId}', [PostController::class, 'likePost'])->middleware('auth');
+
 
 /* Admin routes */
 
