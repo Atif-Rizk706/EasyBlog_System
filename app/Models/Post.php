@@ -17,4 +17,14 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
+    public function getLikesCountAttribute()
+    {
+        return $this->likes()->count();
+    }
+
+    // Define the relationship with the Like model
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 }
