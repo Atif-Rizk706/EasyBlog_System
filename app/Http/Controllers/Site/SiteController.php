@@ -38,14 +38,14 @@ class SiteController extends Controller
             return redirect()->back()->with('error', 'Post not found.');
         }
         $category = $post->category;
-
+        $usersWhoLiked = $post->usersWhoLiked;
         // Retrieve all posts with the same category, excluding the current post
         $relatedPosts = Post::where('category', $category) // Category column
         ->where('id', '!=', $post->id) // Exclude the current post
         ->get();
 
         $comments = $post->comments; // Retrieve comments related to the post
-        return view('frontend.single_post', compact('post', 'comments', 'relatedPosts'));
+        return view('frontend.single_post', compact('post', 'comments', 'relatedPosts','usersWhoLiked'));
     }
     public function add_comment(Request $request,$id){
         $comment=new Comment();

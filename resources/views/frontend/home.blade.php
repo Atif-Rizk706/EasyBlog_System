@@ -44,7 +44,7 @@
                       <span>by {{$post->user_type}} {{$post->name}}</span>
                       <!-- Like Button -->
                       <button class="btn btn-primary like-button" data-post-id="{{ $post->id }}">
-                          Like <span class="like-count">{{ $post->likes_count }}</span>
+                          <span  class="like-count">{{ $post->likes_count }}</span> Likes
                       </button>
                   </div>
             </div>
@@ -127,6 +127,9 @@
             height: 400px;
             border-radius: 15px;
         }
+        .like-count{
+            color: white!important;
+        }
 
 
     </style>
@@ -165,7 +168,7 @@
                 button.addEventListener('click', function() {
                     const postId = this.getAttribute('data-post-id');
                     const likeCountSpan = this.querySelector('.like-count');
-
+                    console.log(likeCountSpan);
                     // Send AJAX request to like/unlike the post
                     fetch(`/like/${postId}`, {
                         method: 'POST',
@@ -178,7 +181,9 @@
                         .then(response => response.json())
                         .then(data => {
                             // Update like count and button text
-                            likeCountSpan.textContent = data.likes;
+                            if (likeCountSpan) { // Check if the like count element exists
+                                likeCountSpan.textContent = data.likes; // Update the like count
+                            }
                             this.textContent = data.message === 'Liked' ? 'Unlike' : 'Like';
                         })
                         .catch(error => console.error('Error:', error));

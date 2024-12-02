@@ -66,7 +66,26 @@
         </div>
         <aside class="col-lg-4 tm-aside-col">
             <div class="tm-post-sidebar">
+                <h2 class="mb-4 tm-post-title tm-color-primary">People who likes</h2>
+            @foreach($usersWhoLiked as $user)
+                    <div class="tm-comment tm-mb-45">
+                        <figure class="tm-comment-figure">
+                            <img src="/postimage/user.png"
+                                 alt="User icon"
+                                 style="width: 80px ; height: 80px;background-color: #54acb9"
+                                 class="mb-2 rounded-circle img-thumbnail"
+                                 onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/1946/1946429.png';">
+                        </figure>
+                        <div>
+                            <p>
+                                {{$user->name}}
+                            </p>
+
+                        </div>
+                    </div>
+                @endforeach
                 <hr class="mb-3 tm-hr-primary">
+
                 <h2 class="mb-4 tm-post-title tm-color-primary">Categories</h2>
                 <ul class="tm-mb-75 pl-5 tm-category-list">
                     <li><a href="#" class="tm-color-primary">Visual Designs</a></li>
