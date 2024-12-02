@@ -16,7 +16,7 @@
         @if (isset($message))
             <p>{{ $message }}</p>
         @endif
-    @foreach($post as $post)
+    @foreach($posts as $post)
         <article class="col-12 col-md-6 tm-post art_contain">
             <hr class="tm-hr-primary">
             <a href="{{url("single_post",$post->id)}}" class="effect-lily tm-post-link tm-pt-60">
@@ -42,6 +42,10 @@
                   <div class="d-flex justify-content-between">
                       <span></span>
                       <span>by {{$post->user_type}} {{$post->name}}</span>
+                      <!-- Like Button -->
+                      <button class="btn btn-primary like-button" data-post-id="{{ $post->id }}">
+                          Like <span class="like-count">{{ $post->likes_count }}</span>
+                      </button>
                   </div>
             </div>
         </article>
@@ -49,25 +53,27 @@
     </div>
     <div class="row tm-row tm-mt-100 tm-mb-75">
         <div class="tm-prev-next-wrapper">
-            <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next disabled tm-mr-20">Prev</a>
-            <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
+            @if ($posts->currentPage() > 1)
+                <a href="{{ $posts->previousPageUrl() }}" class="mb-2 tm-btn tm-btn-primary tm-prev-next tm-mr-20">Prev</a>
+            @else
+                <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next disabled tm-mr-20">Prev</a>
+            @endif
+
+            @if ($posts->hasMorePages())
+                <a href="{{ $posts->nextPageUrl() }}" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
+            @else
+                <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next disabled">Next</a>
+            @endif
         </div>
         <div class="tm-paging-wrapper">
             <span class="d-inline-block mr-3">Page</span>
             <nav class="tm-paging-nav d-inline-block">
                 <ul>
-                    <li class="tm-paging-item active">
-                        <a href="#" class="mb-2 tm-btn tm-paging-link">1</a>
-                    </li>
-                    <li class="tm-paging-item">
-                        <a href="#" class="mb-2 tm-btn tm-paging-link">2</a>
-                    </li>
-                    <li class="tm-paging-item">
-                        <a href="#" class="mb-2 tm-btn tm-paging-link">3</a>
-                    </li>
-                    <li class="tm-paging-item">
-                        <a href="#" class="mb-2 tm-btn tm-paging-link">4</a>
-                    </li>
+                    @foreach ($posts->links() as $link)
+                        <li class="tm-paging-item {{ $link->active ? 'active' : '' }}">
+                            <a href="{{ $link->url }}" class="mb-2 tm-btn tm-paging-link">{{ $link->label }}</a>
+                        </li>
+                    @endforeach
                 </ul>
             </nav>
         </div>

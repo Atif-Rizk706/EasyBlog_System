@@ -17,8 +17,8 @@ class SiteController extends Controller
          $usertype=Auth()->user()->user_type;
          if($usertype=='user')
          {
-             $post=Post::all();
-             return view('frontend.home',compact('post'));
+             $posts = Post::paginate(4); // 6 posts per page
+             return view('frontend.home',compact('posts'));
          }
          else if ($usertype=='admin')
          {
@@ -28,8 +28,8 @@ class SiteController extends Controller
 
     }
     public function home(){
-        $post=Post::all();
-        return view('frontend.home',compact('post'));
+        $posts = Post::paginate(4); // 6 posts per page
+        return view('frontend.home',compact('posts'));
     }
     public function single_post($id){
         $post = Post::find($id);
